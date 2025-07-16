@@ -20,7 +20,7 @@ if st.button("🔮 Predict Temperature"):
                 response = requests.post(API_URL, json={"vehicle_id": vehicle_id})
                 result = response.json()
 
-                if response.status_code == 200:
+                if response.status_code == 200 and "prediction" in result:
                     st.success(f"✅ Prediction Successful for Vehicle ID: {vehicle_id}")
                     st.subheader("📊 Predicted Temperatures (After 5 Minutes)")
                     st.markdown(f"🕒 **Timestamp**: `{result['timestamp']}`")
@@ -28,6 +28,9 @@ if st.button("🔮 Predict Temperature"):
                     for key, value in result["prediction"].items():
                         st.metric(label=key, value=f"{value} °C")
                 else:
-                    st.error(f"❌ API Error: {result.get('detail', 'Unknown error')}")
+                    # Show custom message returned from backend (e.g., vehicle is off)
+                    error_message = result.get("detail", "Unknown error")
+                    st.warning(f"⚠️ {error_message}")
+
             except Exception as e:
-                st.exception(f"Failed to connect to FastAPI: {e}")
+                st.error(f"❌ Failed to connect to FastAPI: {e}")
