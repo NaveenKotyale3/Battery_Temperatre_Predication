@@ -1,0 +1,9 @@
+data_ingestion:
+  test_size: 0.2
+
+
+data_source:
+  base_url: https://internalapi.e3techworld.com/bike-unified
+  
+
+
