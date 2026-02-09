@@ -91,7 +91,7 @@ def scale_features(X_train, X_test):
 def train_model(X_train, y_train):
 
     model = RandomForestRegressor(
-        n_estimators=200,
+        n_estimators=50,
         max_depth=20,
         random_state=42,
         n_jobs=-1

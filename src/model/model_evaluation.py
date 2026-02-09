@@ -23,15 +23,8 @@ from src.logger import logging
 # =========================================================
 # MLflow + DagsHub Initialization
 # =========================================================
-mlflow.set_tracking_uri(
-    "https://dagshub.com/NaveenKotyale3/Battery_Temperatre_Predication.mlflow"
-)
-
-dagshub.init(
-    repo_owner="NaveenKotyale3",
-    repo_name="Battery_Temperatre_Predication",
-    mlflow=True
-)
+mlflow.set_tracking_uri('https://dagshub.com/NaveenKotyale3/Battery_Temperatre_Predication.mlflow')
+dagshub.init(repo_owner='NaveenKotyale3', repo_name='Battery_Temperatre_Predication', mlflow=True)
 
 
 # =========================================================
@@ -251,16 +244,16 @@ def main():
             if hasattr(model, "get_params"):
                 mlflow.log_params(model.get_params())
 
-            # Log model
-            mlflow.sklearn.log_model(model, "model")
+            # Log model and capture the model info
+            model_info = mlflow.sklearn.log_model(model, "model")
 
             # Log artifacts
             mlflow.log_artifact(metrics_path)
 
-            # Save run info
+            # Save run info with model_uri for proper registration
             save_model_info(
                 run.info.run_id,
-                "model",
+                model_info.model_uri,
                 "reports/experiment_info.json"
             )
 
